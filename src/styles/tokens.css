@@ -1,0 +1,122 @@
+/* ─── Полина / Гражданское право ────────────────────────────────────────────
+   Палитра построена на двух рефах:
+   · Bermuda & Holly — мята #82E3C7 на почти-чёрном #021B10
+   · рисограф-постер — синий/зелёный градиент с зерном
+   Кислотный зелёный держим на коротком поводке: только акценты и мемы.
+
+   Токены семантические: --bg / --fg / --surface / --mint*. Тема переключается
+   атрибутом data-theme на <html>, дефолт — тёмная.
+   ──────────────────────────────────────────────────────────────────────── */
+:root {
+  /* фон и поверхности */
+  --bg: #0b100d;
+  --bg-2: #021b10; /* страница раскрытой книги */
+  --surface: rgba(255, 255, 255, 0.025);
+  --surface-2: rgba(255, 255, 255, 0.05);
+
+  /* текст */
+  --fg: #f2f4f1;
+  --fg-2: rgba(242, 244, 241, 0.82);
+  --fg-3: rgba(242, 244, 241, 0.74);
+  --fg-4: rgba(242, 244, 241, 0.52);
+  --fg-5: rgba(242, 244, 241, 0.34);
+
+  /* мята: --mint красит плоскости, --mint-ink — текст.
+     На светлой теме это разные цвета, иначе акцент слепнет на бумаге. */
+  --mint: #82e3c7;
+  --mint-ink: #82e3c7;
+  --mint-deep: #4fbf9d;
+  --mint-wash: rgba(130, 227, 199, 0.12);
+  --on-accent: #021b10;
+
+  /* кислота — только точечно */
+  --acid: #3bf07e;
+  --acid-ink: #3bf07e;
+
+  /* рисограф-синий из постера */
+  --riso-blue: #4e7be8;
+  --riso-blue-ink: #4e7be8;
+  --riso-blue-deep: #2f4bbd;
+
+  /* линии */
+  --line: rgba(130, 227, 199, 0.16);
+  --line-soft: rgba(242, 244, 241, 0.08);
+  --hatch: rgba(130, 227, 199, 0.05);
+
+  /* оверлей, свечение полки, тени */
+  --scrim: rgba(2, 12, 8, 0.72);
+  --glow-blue: rgba(78, 123, 232, 0.36);
+  --glow-mint: rgba(130, 227, 199, 0.28);
+  --spine-hi: rgba(255, 255, 255, 0.16);
+  --spine-lo: rgba(2, 27, 16, 0.28);
+  --shadow-spine: 0 10px 26px -14px rgba(0, 0, 0, 0.9);
+  --shadow-book: -18px 0 60px -30px rgba(0, 0, 0, 0.9),
+    0 40px 120px -50px rgba(0, 0, 0, 0.9);
+  --spine-soon-veil: 0.55;
+
+  /* зерно */
+  --grain-opacity: 0.5;
+  --grain-blend: overlay;
+
+  /* типографика */
+  --font-display: "Inter Tight", "Helvetica Neue", Arial, sans-serif;
+  --font-text: "Inter", "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "JetBrains Mono", "SF Mono", ui-monospace, monospace;
+
+  /* ритм */
+  --gut: clamp(16px, 3vw, 40px);
+  --rail: 56px;
+
+  /* движение — один язык на весь сайт */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-fast: 180ms;
+  --dur: 340ms;
+  --dur-slow: 620ms;
+
+  color-scheme: dark;
+}
+
+/* Светлая — та же композиция на бумаге, а не инверсия ради инверсии.
+   Мята уходит вглубь, чтобы текст ею оставался читаемым. */
+:root[data-theme="light"] {
+  --bg: #f1f4ef;
+  --bg-2: #fbfcfa;
+  --surface: rgba(2, 27, 16, 0.032);
+  --surface-2: rgba(2, 27, 16, 0.062);
+
+  --fg: #0a1a12;
+  --fg-2: rgba(10, 26, 18, 0.84);
+  --fg-3: rgba(10, 26, 18, 0.72);
+  --fg-4: rgba(10, 26, 18, 0.56);
+  --fg-5: rgba(10, 26, 18, 0.38);
+
+  --mint: #79dcbe;
+  --mint-ink: #14795a;
+  --mint-deep: #2c8c6c;
+  --mint-wash: rgba(47, 158, 122, 0.11);
+  --on-accent: #021b10;
+
+  --acid-ink: #12904a;
+
+  --riso-blue-ink: #2f4bbd;
+
+  --line: rgba(20, 121, 90, 0.26);
+  --line-soft: rgba(10, 26, 18, 0.13);
+  --hatch: rgba(20, 121, 90, 0.055);
+
+  --scrim: rgba(20, 40, 30, 0.42);
+  --glow-blue: rgba(78, 123, 232, 0.26);
+  --glow-mint: rgba(47, 158, 122, 0.2);
+  --spine-hi: rgba(255, 255, 255, 0.34);
+  --spine-lo: rgba(2, 27, 16, 0.16);
+  --shadow-spine: 0 10px 24px -16px rgba(10, 40, 28, 0.5);
+  --shadow-book: -18px 0 50px -34px rgba(10, 40, 28, 0.45),
+    0 30px 90px -50px rgba(10, 40, 28, 0.4);
+  --spine-soon-veil: 0.68;
+
+  --grain-opacity: 0.32;
+  --grain-blend: multiply;
+
+  color-scheme: light;
+}

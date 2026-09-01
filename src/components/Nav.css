@@ -1,0 +1,124 @@
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  height: var(--rail);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 0 var(--gut);
+  background: color-mix(in srgb, var(--bg) 78%, transparent);
+  backdrop-filter: blur(14px) saturate(120%);
+  border-bottom: 1px solid var(--line-soft);
+}
+
+.nav__mark {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.nav__spines {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  height: 18px;
+}
+
+.nav__spines i {
+  width: 3px;
+  border-radius: 1px;
+  background: var(--mint);
+  transition: height var(--dur) var(--ease-out);
+}
+
+.nav__spines i:nth-child(1) {
+  height: 14px;
+}
+.nav__spines i:nth-child(2) {
+  height: 18px;
+  background: var(--riso-blue);
+}
+.nav__spines i:nth-child(3) {
+  height: 11px;
+  background: var(--acid);
+}
+
+.nav__mark:hover .nav__spines i:nth-child(1) {
+  height: 18px;
+}
+.nav__mark:hover .nav__spines i:nth-child(2) {
+  height: 11px;
+}
+.nav__mark:hover .nav__spines i:nth-child(3) {
+  height: 16px;
+}
+
+.nav__name {
+  color: var(--fg);
+  font-size: 11px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.nav__right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.nav__list {
+  display: flex;
+  gap: 4px;
+  list-style: none;
+}
+
+.nav__short {
+  display: none;
+}
+
+.nav__link {
+  display: block;
+  white-space: nowrap;
+  padding: 7px 11px 6px;
+  border-radius: 999px;
+  color: var(--fg-4);
+  transition: color var(--dur-fast) var(--ease-out),
+    background var(--dur-fast) var(--ease-out);
+}
+
+.nav__link:hover {
+  color: var(--fg);
+  background: var(--mint-wash);
+}
+
+.nav__link--on {
+  color: var(--on-accent);
+  background: var(--mint);
+}
+
+.nav__link--on:hover {
+  color: var(--on-accent);
+  background: var(--mint);
+}
+
+@media (max-width: 720px) {
+  .nav__name {
+    display: none;
+  }
+  .nav__full {
+    display: none;
+  }
+  .nav__short {
+    display: inline;
+  }
+  .nav__link {
+    padding: 7px 8px 6px;
+    font-size: 9.5px;
+  }
+}

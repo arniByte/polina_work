@@ -1,0 +1,157 @@
+.b-lead {
+  font-family: var(--font-display);
+  font-size: clamp(19px, 2.1vw, 24px);
+  font-weight: 500;
+  line-height: 1.32;
+  letter-spacing: -0.025em;
+  color: var(--fg);
+  margin-bottom: 26px;
+}
+
+.b-text {
+  font-size: 15.5px;
+  line-height: 1.68;
+  color: var(--fg-2);
+  max-width: 68ch;
+}
+
+.b-define {
+  margin: 26px 0;
+  padding: 20px 22px;
+  border-left: 2px solid var(--mint);
+  background: var(--mint-wash);
+  border-radius: 0 6px 6px 0;
+}
+
+.b-define__head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+
+.b-define__term {
+  font-size: 17px;
+  color: var(--mint-ink);
+}
+
+.b-list {
+  margin: 26px 0;
+}
+
+.b-list__title {
+  font-size: 16px;
+  margin-bottom: 14px;
+}
+
+.b-list ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+}
+
+.b-list li {
+  display: flex;
+  gap: 14px;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--fg-2);
+  max-width: 70ch;
+}
+
+.b-list__num {
+  flex: 0 0 auto;
+  padding-top: 4px;
+  color: var(--mint-deep);
+}
+
+.b-quote {
+  margin: 30px 0;
+  padding: 24px 0 24px 26px;
+  border-left: 1px solid var(--line);
+}
+
+.b-quote blockquote {
+  margin: 0 0 12px;
+  font-family: var(--font-display);
+  font-size: clamp(17px, 1.9vw, 21px);
+  font-weight: 500;
+  line-height: 1.38;
+  letter-spacing: -0.02em;
+  max-width: 60ch;
+}
+
+.b-callout {
+  position: relative;
+  margin: 30px 0;
+  padding: 22px 24px 24px;
+  border: 1px solid var(--line-soft);
+  border-radius: 8px;
+  background: var(--surface);
+}
+
+.b-callout__tag {
+  display: inline-block;
+  margin-bottom: 10px;
+}
+
+.b-callout__title {
+  font-size: 17px;
+  margin-bottom: 9px;
+}
+
+.b-callout--note {
+  border-color: rgba(78, 123, 232, 0.35);
+}
+.b-callout--note .b-callout__tag {
+  color: var(--riso-blue-ink);
+}
+
+.b-callout--trap {
+  border-color: rgba(59, 240, 126, 0.3);
+}
+.b-callout--trap .b-callout__tag {
+  color: var(--acid-ink);
+}
+
+.b-callout--exam {
+  border-color: rgba(130, 227, 199, 0.4);
+  background: var(--mint-wash);
+}
+.b-callout--exam .b-callout__tag {
+  color: var(--mint-ink);
+}
+
+.b-meme {
+  margin: 32px 0;
+  max-width: 460px;
+}
+
+.b-meme img {
+  display: block;
+  width: 100%;
+  border-radius: 8px;
+  border: 1px solid var(--line-soft);
+}
+
+.b-meme__hole {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 4 / 3;
+  border: 1px dashed var(--line);
+  border-radius: 8px;
+  background: repeating-linear-gradient(
+    -45deg,
+    transparent,
+    transparent 9px,
+    var(--hatch) 9px,
+    var(--hatch) 18px
+  );
+}
+
+.b-meme figcaption {
+  margin-top: 10px;
+  line-height: 1.5;
+}
