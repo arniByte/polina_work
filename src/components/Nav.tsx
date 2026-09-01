@@ -1,5 +1,7 @@
 import { NavLink } from "react-router-dom";
+import type { Theme } from "../lib/theme";
 import { profile } from "../content/profile";
+import { ThemeToggle } from "./ThemeToggle";
 import "./Nav.css";
 
 const links = [
@@ -9,7 +11,13 @@ const links = [
   { to: "/cabinet", label: "Кабинет", short: "Кабинет" },
 ];
 
-export function Nav() {
+export function Nav({
+  theme,
+  onToggleTheme,
+}: {
+  theme: Theme;
+  onToggleTheme: () => void;
+}) {
   return (
     <nav className="nav">
       <NavLink to="/" className="nav__mark" aria-label="На полку">
@@ -22,7 +30,8 @@ export function Nav() {
         </span>
       </NavLink>
 
-      <ul className="nav__list">
+      <div className="nav__right">
+        <ul className="nav__list">
         {links.map((l) => (
           <li key={l.to}>
             <NavLink
@@ -37,7 +46,9 @@ export function Nav() {
             </NavLink>
           </li>
         ))}
-      </ul>
+        </ul>
+        <ThemeToggle theme={theme} onToggle={onToggleTheme} />
+      </div>
     </nav>
   );
 }

@@ -30,8 +30,8 @@
   inset: 0;
   border-radius: 3px 3px 2px 2px;
   /* блик по левому краю — корешок читается объёмным без скевоморфизма */
-  box-shadow: inset 4px 0 0 rgba(255, 255, 255, 0.16),
-    inset -3px 0 0 rgba(2, 27, 16, 0.28), 0 10px 26px -14px rgba(0, 0, 0, 0.9);
+  box-shadow: inset 4px 0 0 var(--spine-hi), inset -3px 0 0 var(--spine-lo),
+    var(--shadow-spine);
 }
 
 .spine__inner {
@@ -42,7 +42,11 @@
   align-items: center;
   justify-content: space-between;
   padding: 12px 0 11px;
-  color: var(--ink);
+  color: var(--ink-top, var(--on-accent));
+}
+
+.spine__foot {
+  color: var(--ink-bot, var(--on-accent));
 }
 
 .spine__no,
@@ -68,12 +72,28 @@
 }
 
 /* «Скоро» — корешок приглушён, но кликабелен: студент видит план курса целиком. */
-.spine--soon .spine__body {
-  filter: saturate(0.5) brightness(0.72);
+.spine__veil {
+  position: absolute;
+  inset: 0;
+  border-radius: 3px 3px 2px 2px;
+  background: var(--bg);
+  opacity: 0;
+  pointer-events: none;
 }
 
-.spine--soon .spine__inner {
-  color: rgba(242, 244, 241, 0.72);
+.spine--soon .spine__body {
+  filter: saturate(0.55);
+}
+
+.spine--soon .spine__veil {
+  opacity: var(--spine-soon-veil);
+}
+
+/* Приглушённый корешок пропускает фон страницы, поэтому текст берётся из темы,
+   а не из палитры книги. */
+.spine--soon .spine__inner,
+.spine--soon .spine__foot {
+  color: var(--fg-2);
 }
 
 .spine--draft .spine__body {

@@ -3,7 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#0B100D" />
+    <meta name="theme-color" content="#0B100D" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#F1F4EF" media="(prefers-color-scheme: light)" />
     <meta
       name="description"
       content="Гражданское право — учебная полка. Конспекты, материалы и практика по темам курса."
@@ -16,6 +17,13 @@
       rel="stylesheet"
     />
     <title>Гражданское право · полка</title>
+    <script>
+      // до рендера, чтобы светлая тема не мигала тёмным на загрузке
+      try {
+        var t = localStorage.getItem("polina-theme");
+        document.documentElement.dataset.theme = t === "light" ? "light" : "dark";
+      } catch (e) {}
+    </script>
   </head>
   <body>
     <div id="root"></div>

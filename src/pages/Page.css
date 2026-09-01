@@ -14,7 +14,7 @@
 
 .phead__sub {
   max-width: 52ch;
-  color: rgba(242, 244, 241, 0.7);
+  color: var(--fg-3);
 }
 
 .pblock {
@@ -50,7 +50,7 @@
   padding: 22px 22px 26px;
   border: 1px solid var(--line-soft);
   border-radius: 8px;
-  background: rgba(255, 255, 255, 0.022);
+  background: var(--surface);
   transition: border-color var(--dur) var(--ease-out),
     transform var(--dur) var(--ease-out);
 }
@@ -61,7 +61,7 @@
 }
 
 .card__no {
-  color: var(--mint);
+  color: var(--mint-ink);
 }
 
 .card h3 {
@@ -71,7 +71,7 @@
 .card p {
   font-size: 14.5px;
   line-height: 1.6;
-  color: rgba(242, 244, 241, 0.74);
+  color: var(--fg-3);
 }
 
 .figures {
@@ -92,7 +92,7 @@
   font-weight: 800;
   letter-spacing: -0.05em;
   line-height: 0.9;
-  color: var(--mint);
+  color: var(--mint-ink);
 }
 
 .chips {
@@ -113,8 +113,8 @@
     -45deg,
     transparent,
     transparent 11px,
-    rgba(130, 227, 199, 0.04) 11px,
-    rgba(130, 227, 199, 0.04) 22px
+    var(--hatch) 11px,
+    var(--hatch) 22px
   );
 }
 
@@ -129,7 +129,7 @@
   position: relative;
   padding-left: 22px;
   font-size: 15px;
-  color: rgba(242, 244, 241, 0.76);
+  color: var(--fg-3);
 }
 
 .ticks li::before {
@@ -140,6 +140,6 @@
   width: 8px;
   height: 8px;
   border-radius: 2px;
-  background: var(--mint);
+  background: var(--mint-ink);
   opacity: 0.7;
 }

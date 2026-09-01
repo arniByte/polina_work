@@ -11,8 +11,8 @@ html {
 body {
   margin: 0;
   min-height: 100dvh;
-  background: var(--ink-2);
-  color: var(--paper);
+  background: var(--bg);
+  color: var(--fg);
   font-family: var(--font-text);
   font-size: 15px;
   line-height: 1.6;
@@ -60,7 +60,7 @@ ol {
 
 ::selection {
   background: var(--acid);
-  color: var(--ink);
+  color: var(--on-accent);
 }
 
 :focus-visible {
@@ -76,7 +76,7 @@ ol {
   font-size: 10.5px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--muted);
+  color: var(--fg-4);
 }
 
 .mono--tight {
@@ -93,7 +93,7 @@ ol {
   padding: 4px 8px 3px;
   border: 1px solid var(--line);
   border-radius: 3px;
-  color: var(--mint);
+  color: var(--mint-ink);
   white-space: nowrap;
 }
 
@@ -101,10 +101,13 @@ ol {
 .grain {
   position: fixed;
   inset: 0;
+  /* без явных размеров SVG берёт intrinsic 300x150 и зерно ложится углом */
+  width: 100%;
+  height: 100%;
   z-index: 9000;
   pointer-events: none;
-  opacity: 0.5;
-  mix-blend-mode: overlay;
+  opacity: var(--grain-opacity);
+  mix-blend-mode: var(--grain-blend);
 }
 
 .shell {

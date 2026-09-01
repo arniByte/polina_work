@@ -4,14 +4,14 @@
   font-weight: 500;
   line-height: 1.32;
   letter-spacing: -0.025em;
-  color: var(--paper);
+  color: var(--fg);
   margin-bottom: 26px;
 }
 
 .b-text {
   font-size: 15.5px;
   line-height: 1.68;
-  color: rgba(242, 244, 241, 0.82);
+  color: var(--fg-2);
   max-width: 68ch;
 }
 
@@ -33,7 +33,7 @@
 
 .b-define__term {
   font-size: 17px;
-  color: var(--mint);
+  color: var(--mint-ink);
 }
 
 .b-list {
@@ -57,7 +57,7 @@
   gap: 14px;
   font-size: 15px;
   line-height: 1.6;
-  color: rgba(242, 244, 241, 0.82);
+  color: var(--fg-2);
   max-width: 70ch;
 }
 
@@ -89,7 +89,7 @@
   padding: 22px 24px 24px;
   border: 1px solid var(--line-soft);
   border-radius: 8px;
-  background: rgba(255, 255, 255, 0.025);
+  background: var(--surface);
 }
 
 .b-callout__tag {
@@ -106,14 +106,14 @@
   border-color: rgba(78, 123, 232, 0.35);
 }
 .b-callout--note .b-callout__tag {
-  color: var(--riso-blue);
+  color: var(--riso-blue-ink);
 }
 
 .b-callout--trap {
   border-color: rgba(59, 240, 126, 0.3);
 }
 .b-callout--trap .b-callout__tag {
-  color: var(--acid);
+  color: var(--acid-ink);
 }
 
 .b-callout--exam {
@@ -121,7 +121,7 @@
   background: var(--mint-wash);
 }
 .b-callout--exam .b-callout__tag {
-  color: var(--mint);
+  color: var(--mint-ink);
 }
 
 .b-meme {
@@ -146,8 +146,8 @@
     -45deg,
     transparent,
     transparent 9px,
-    rgba(130, 227, 199, 0.05) 9px,
-    rgba(130, 227, 199, 0.05) 18px
+    var(--hatch) 9px,
+    var(--hatch) 18px
   );
 }
 

@@ -9,8 +9,8 @@
   inset: -8% -4% 20%;
   z-index: 0;
   background:
-    radial-gradient(58% 62% at 22% 38%, rgba(78, 123, 232, 0.36), transparent 70%),
-    radial-gradient(52% 58% at 74% 62%, rgba(130, 227, 199, 0.28), transparent 72%);
+    radial-gradient(58% 62% at 22% 38%, var(--glow-blue), transparent 70%),
+    radial-gradient(52% 58% at 74% 62%, var(--glow-mint), transparent 72%);
   filter: blur(46px);
   pointer-events: none;
 }
@@ -25,7 +25,7 @@
   overflow-x: auto;
   overflow-y: hidden;
   scrollbar-width: thin;
-  scrollbar-color: var(--ink-4) transparent;
+  scrollbar-color: var(--fg-5) transparent;
   scroll-snap-type: x proximity;
   /* место сверху под подскок корешка на hover */
   padding-top: 20px;
@@ -39,7 +39,7 @@
   height: 6px;
 }
 .shelf__row::-webkit-scrollbar-thumb {
-  background: var(--ink-4);
+  background: var(--fg-5);
   border-radius: 3px;
 }
 
@@ -81,7 +81,7 @@
 
 .shelf__readout-hours {
   margin-left: auto;
-  color: var(--mint);
+  color: var(--mint-ink);
 }
 
 @media (max-width: 560px) {

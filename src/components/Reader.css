@@ -13,7 +13,7 @@
 .reader__scrim {
   position: absolute;
   inset: 0;
-  background: rgba(2, 12, 8, 0.72);
+  background: var(--scrim);
   backdrop-filter: blur(9px);
   cursor: zoom-out;
 }
@@ -36,9 +36,8 @@
   justify-content: flex-start;
   gap: 18px;
   padding: 16px 0;
-  color: var(--ink);
-  box-shadow: inset 4px 0 0 rgba(255, 255, 255, 0.18),
-    inset -2px 0 6px rgba(2, 27, 16, 0.3);
+  color: var(--on-accent);
+  box-shadow: inset 4px 0 0 var(--spine-hi), inset -2px 0 6px var(--spine-lo);
   z-index: 2;
 }
 
@@ -63,11 +62,11 @@
   flex: 1;
   min-width: 0;
   transform-origin: left center;
-  background: var(--ink);
+  background: var(--bg-2);
   border-radius: 0 6px 6px 0;
   border: 1px solid var(--line-soft);
   border-left: 0;
-  box-shadow: -18px 0 60px -30px #000, 0 40px 120px -50px #000;
+  box-shadow: var(--shadow-book);
   overflow: hidden;
 }
 
@@ -89,14 +88,14 @@
   display: grid;
   place-items: center;
   font-size: 13px;
-  color: var(--muted);
-  background: rgba(255, 255, 255, 0.05);
+  color: var(--fg-4);
+  background: var(--surface-2);
   transition: color var(--dur-fast) var(--ease-out),
     background var(--dur-fast) var(--ease-out);
 }
 
 .reader__close:hover {
-  color: var(--ink);
+  color: var(--on-accent);
   background: var(--mint);
 }
 
@@ -107,7 +106,7 @@
   gap: 22px;
   padding: 30px 24px 32px;
   border-right: 1px solid var(--line-soft);
-  background: linear-gradient(180deg, rgba(130, 227, 199, 0.06), transparent 46%);
+  background: linear-gradient(180deg, var(--mint-wash), transparent 46%);
   overflow-y: auto;
   min-height: 0;
 }
@@ -122,7 +121,7 @@
 }
 
 .reader__subtitle {
-  color: var(--muted);
+  color: var(--fg-4);
   line-height: 1.5;
   margin-top: -12px;
 }
@@ -144,18 +143,18 @@
   text-align: left;
   font-size: 14px;
   line-height: 1.4;
-  color: rgba(242, 244, 241, 0.72);
+  color: var(--fg-3);
   transition: color var(--dur-fast) var(--ease-out),
     background var(--dur-fast) var(--ease-out);
 }
 
 .reader__toc button:hover {
-  color: var(--paper);
-  background: rgba(255, 255, 255, 0.04);
+  color: var(--fg);
+  background: var(--surface);
 }
 
 .reader__toc .reader__toc-on {
-  color: var(--mint);
+  color: var(--mint-ink);
   background: var(--mint-wash);
 }
 
@@ -200,7 +199,7 @@
 }
 
 .reader__link-note {
-  color: var(--muted-2);
+  color: var(--fg-5);
 }
 
 /* ── страница с текстом ─────────────────────────────────── */
@@ -209,14 +208,14 @@
   overflow-y: auto;
   min-height: 0;
   scrollbar-width: thin;
-  scrollbar-color: var(--ink-4) transparent;
+  scrollbar-color: var(--fg-5) transparent;
 }
 
 .reader__content::-webkit-scrollbar {
   width: 8px;
 }
 .reader__content::-webkit-scrollbar-thumb {
-  background: var(--ink-4);
+  background: var(--fg-5);
   border-radius: 4px;
 }
 
@@ -238,7 +237,7 @@
 }
 
 .reader__section-head .mono {
-  color: var(--mint);
+  color: var(--mint-ink);
 }
 
 .reader__soon {
@@ -263,12 +262,12 @@
   max-width: 46%;
   font-size: 14px;
   line-height: 1.35;
-  color: var(--muted);
+  color: var(--fg-4);
   transition: color var(--dur-fast) var(--ease-out);
 }
 
 .reader__flip-btn:hover {
-  color: var(--mint);
+  color: var(--mint-ink);
 }
 
 .reader__flip-btn--next {
@@ -285,22 +284,47 @@
 }
 
 @media (max-width: 900px) {
+  /* На телефоне книга — одна колонка с общим скроллом: форзац целиком, под ним
+     текст. Две независимо скроллящиеся колонки на 390px обрезают оглавление. */
+  .reader__page {
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+  /* height:100% сжимал бы обе auto-строки, и форзац наезжал бы на текст */
   .reader__inner {
     grid-template-columns: 1fr;
-    grid-template-rows: auto 1fr;
+    grid-template-rows: auto auto;
+    height: auto;
+    min-height: 100%;
+    overflow: visible;
   }
   .reader__aside {
     border-right: 0;
     border-bottom: 1px solid var(--line-soft);
-    max-height: 42dvh;
+    overflow: visible;
+    padding-bottom: 26px;
+  }
+  .reader__content {
+    overflow: visible;
+    padding-top: 28px;
+  }
+  /* Кнопка закрытия остаётся на месте, пока страница едет под ней. */
+  .reader__close {
+    position: fixed;
+    top: calc(clamp(12px, 2.4vw, 40px) + 10px);
+    right: calc(clamp(12px, 2.4vw, 40px) + 10px);
+    z-index: 10;
+    background: color-mix(in srgb, var(--bg-2) 82%, transparent);
+    border: 1px solid var(--line-soft);
+    backdrop-filter: blur(8px);
   }
   .reader__spine {
-    flex-basis: 40px;
+    flex-basis: 38px;
   }
   .reader__spine-title {
     font-size: 12px;
   }
-  .reader__content {
-    padding-top: 28px;
+  .reader__flip {
+    margin-top: 44px;
   }
 }

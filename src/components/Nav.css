@@ -10,7 +10,7 @@
   justify-content: space-between;
   gap: 16px;
   padding: 0 var(--gut);
-  background: color-mix(in srgb, var(--ink-2) 76%, transparent);
+  background: color-mix(in srgb, var(--bg) 78%, transparent);
   backdrop-filter: blur(14px) saturate(120%);
   border-bottom: 1px solid var(--line-soft);
 }
@@ -59,11 +59,17 @@
 }
 
 .nav__name {
-  color: var(--paper);
+  color: var(--fg);
   font-size: 11px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.nav__right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .nav__list {
@@ -81,23 +87,23 @@
   white-space: nowrap;
   padding: 7px 11px 6px;
   border-radius: 999px;
-  color: var(--muted);
+  color: var(--fg-4);
   transition: color var(--dur-fast) var(--ease-out),
     background var(--dur-fast) var(--ease-out);
 }
 
 .nav__link:hover {
-  color: var(--paper);
+  color: var(--fg);
   background: var(--mint-wash);
 }
 
 .nav__link--on {
-  color: var(--ink);
+  color: var(--on-accent);
   background: var(--mint);
 }
 
 .nav__link--on:hover {
-  color: var(--ink);
+  color: var(--on-accent);
   background: var(--mint);
 }
 

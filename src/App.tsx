@@ -1,4 +1,5 @@
 import { Route, Routes } from "react-router-dom";
+import { useTheme } from "./lib/theme";
 import { Grain } from "./components/Grain";
 import { Nav } from "./components/Nav";
 import { Reader } from "./components/Reader";
@@ -10,10 +11,12 @@ import { Schedule } from "./pages/Schedule";
 import { Shelf } from "./pages/Shelf";
 
 export default function App() {
+  const { theme, toggle } = useTheme();
+
   return (
     <div className="shell">
       <Grain />
-      <Nav />
+      <Nav theme={theme} onToggleTheme={toggle} />
 
       <Routes>
         {/* Ридер — вложенный роут: полка остаётся под ним смонтированной,
