@@ -1,0 +1,49 @@
+/* ─── Полина / Гражданское право ────────────────────────────────────────────
+   Палитра построена на двух рефах:
+   · Bermuda & Holly — мята #82E3C7 на почти-чёрном #021B10
+   · рисограф-постер — синий/зелёный градиент с зерном
+   Кислотный зелёный держим на коротком поводке: только акценты и мемы.
+   ──────────────────────────────────────────────────────────────────────── */
+:root {
+  /* база */
+  --ink: #021b10;
+  --ink-2: #0b100d;
+  --ink-3: #151d18;
+  --ink-4: #22302a;
+  --paper: #f2f4f1;
+  --paper-dim: #d8ded8;
+
+  /* мята — главный акцент */
+  --mint: #82e3c7;
+  --mint-deep: #4fbf9d;
+  --mint-wash: rgba(130, 227, 199, 0.12);
+
+  /* кислота — только точечно */
+  --acid: #3bf07e;
+
+  /* рисограф-синий из постера */
+  --riso-blue: #4e7be8;
+  --riso-blue-deep: #2f4bbd;
+
+  /* служебные */
+  --line: rgba(130, 227, 199, 0.16);
+  --line-soft: rgba(242, 244, 241, 0.08);
+  --muted: rgba(242, 244, 241, 0.52);
+  --muted-2: rgba(242, 244, 241, 0.34);
+
+  /* типографика */
+  --font-display: "Inter Tight", "Helvetica Neue", Arial, sans-serif;
+  --font-text: "Inter", "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "JetBrains Mono", "SF Mono", ui-monospace, monospace;
+
+  /* ритм */
+  --gut: clamp(16px, 3vw, 40px);
+  --rail: 56px;
+
+  /* движение — один язык на весь сайт */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-fast: 180ms;
+  --dur: 340ms;
+  --dur-slow: 620ms;
+}

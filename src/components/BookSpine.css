@@ -1,0 +1,120 @@
+.spine-slot {
+  position: relative;
+  flex: 0 0 auto;
+  /* --k — общий множитель полки: одна строчка в медиазапросе ужимает все корешки */
+  width: calc(var(--w) * var(--k, 1px));
+  height: calc(var(--h) * var(--k, 1px));
+}
+
+.spine-slot__gap {
+  width: 100%;
+  height: 100%;
+  border-radius: 3px;
+  border: 1px dashed var(--line);
+  opacity: 0.45;
+}
+
+.spine {
+  position: absolute;
+  inset: 0;
+  display: block;
+  border-radius: 3px 3px 2px 2px;
+  transform-origin: 50% 100%;
+  transition: transform var(--dur) var(--ease-out),
+    filter var(--dur) var(--ease-out);
+  will-change: transform;
+}
+
+.spine__body {
+  position: absolute;
+  inset: 0;
+  border-radius: 3px 3px 2px 2px;
+  /* блик по левому краю — корешок читается объёмным без скевоморфизма */
+  box-shadow: inset 4px 0 0 rgba(255, 255, 255, 0.16),
+    inset -3px 0 0 rgba(2, 27, 16, 0.28), 0 10px 26px -14px rgba(0, 0, 0, 0.9);
+}
+
+.spine__inner {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 0 11px;
+  color: var(--ink);
+}
+
+.spine__no,
+.spine__foot {
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  opacity: 0.62;
+}
+
+.spine__title {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 15.5px;
+  letter-spacing: -0.025em;
+  line-height: 1.05;
+  max-height: calc(100% - 56px);
+  overflow: hidden;
+  text-align: left;
+}
+
+/* «Скоро» — корешок приглушён, но кликабелен: студент видит план курса целиком. */
+.spine--soon .spine__body {
+  filter: saturate(0.5) brightness(0.72);
+}
+
+.spine--soon .spine__inner {
+  color: rgba(242, 244, 241, 0.72);
+}
+
+.spine--draft .spine__body {
+  filter: saturate(0.7);
+}
+
+.spine:hover,
+.spine:focus-visible {
+  transform: translateY(-14px) rotate(-1.2deg);
+}
+
+.spine:hover .spine__body,
+.spine:focus-visible .spine__body {
+  filter: saturate(1.15) brightness(1.06);
+}
+
+.spine:active {
+  transform: translateY(-6px) rotate(-0.4deg);
+}
+
+@media (max-width: 900px) {
+  .spine-slot {
+    --k: 0.84px;
+  }
+}
+
+@media (max-width: 560px) {
+  .spine-slot {
+    --k: 0.66px;
+  }
+  .spine__title {
+    font-size: 12.5px;
+  }
+  .spine__inner {
+    padding: 9px 0 8px;
+  }
+  .spine__title {
+    max-height: calc(100% - 42px);
+  }
+  .spine__no,
+  .spine__foot {
+    font-size: 8.5px;
+  }
+}
