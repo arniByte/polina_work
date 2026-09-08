@@ -33,8 +33,13 @@ export class ErrorBoundary extends Component<{ children: ReactNode }, State> {
     return { failed: true, detail };
   }
 
-  componentDidCatch(error: unknown) {
+  componentDidCatch(error: unknown, info: { componentStack?: string | null }) {
     rememberError("render", error);
+    const where = (info.componentStack ?? "").trim().split("\n").slice(0, 4).join("\n");
+    if (where) {
+      this.setState((s) => ({ ...s, detail: `${s.detail}\n\n${where}` }));
+      console.error("ПИКС: компонент", where);
+    }
   }
 
   render() {
@@ -58,6 +63,25 @@ export class ErrorBoundary extends Component<{ children: ReactNode }, State> {
           >
             К темам
           </a>
+          <button
+            onClick={() => {
+              // Битые данные в хранилище — самый частый источник поломки,
+              // с которой студент ничего не может сделать сам.
+              try {
+                localStorage.removeItem("piks-progress");
+                localStorage.removeItem("piks-student");
+              } catch {
+                /* хранилище недоступно — просто перезагружаемся */
+              }
+              location.href = "/";
+            }}
+            style={{
+              padding: "20px 36px", borderRadius: 999, fontSize: 20,
+              color: "var(--ink-card)", boxShadow: "inset 0 0 0 1px rgba(20,20,15,0.12)",
+            }}
+          >
+            Сбросить данные
+          </button>
           <button
             onClick={() => navigator.clipboard?.writeText(this.state.detail)}
             style={{

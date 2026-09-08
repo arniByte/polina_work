@@ -16,7 +16,10 @@ export type Passed = Record<string, Result>;
 const read = <T,>(key: string, fallback: T): T => {
   try {
     const raw = localStorage.getItem(key);
-    return raw ? (JSON.parse(raw) as T) : fallback;
+    if (!raw) return fallback;
+    const parsed = JSON.parse(raw);
+    // «null» и мусор в ключе роняли бы Object.entries ниже по коду.
+    return parsed === null || parsed === undefined ? fallback : (parsed as T);
   } catch {
     return fallback;
   }
@@ -52,6 +55,7 @@ export const nextTopicAfter = (i: number) => {
  *  Читаем их как {score, total: 5}, иначе у студента ломается строка результата. */
 const migrate = (raw: Record<string, unknown>): Passed => {
   const out: Passed = {};
+  if (!raw || typeof raw !== "object") return out;
   Object.entries(raw).forEach(([slug, value]) => {
     if (typeof value === "number") out[slug] = { score: value, total: 5 };
     else if (value && typeof value === "object" && "score" in value) out[slug] = value as Result;
