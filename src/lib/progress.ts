@@ -67,8 +67,12 @@ export function useProgress() {
   const [passed, setPassed] = useState<Passed>(() => migrate(read<Record<string, unknown>>(KEY, {})));
   const [name, setNameState] = useState<string>(() => read<string>(NAME_KEY, ""));
 
-  useEffect(() => write(KEY, passed), [passed]);
-  useEffect(() => write(NAME_KEY, name), [name]);
+  useEffect(() => {
+    write(KEY, passed);
+  }, [passed]);
+  useEffect(() => {
+    write(NAME_KEY, name);
+  }, [name]);
 
   /** Записывает попытку. Тема открывается только при 80% верных,
    *  а уже набранный результат не понижается пересдачей. */

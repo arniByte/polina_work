@@ -22,7 +22,11 @@ export function Quiz({ L }: { L: L }) {
   const [pick, setPick] = useState<number | null>(null);
   const [score, setScore] = useState(0);
 
-  useEffect(() => window.scrollTo({ top: 0 }), [qi]);
+  useEffect(() => {
+    // Тело в скобках обязательно: стрелка без них вернула бы результат scrollTo,
+    // а React принимает возвращённое значение за функцию очистки эффекта.
+    window.scrollTo({ top: 0 });
+  }, [qi]);
 
   // Редирект элементом, а не вызовом в рендере: navigate() отсюда обновляет
   // роутер во время отрисовки и оставляет пустой экран на прежнем URL.
