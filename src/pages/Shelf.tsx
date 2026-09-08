@@ -4,8 +4,10 @@ import { books, totalHoursOf } from "../content/books";
 import { subjectById, subjects } from "../content/subjects";
 import { paletteFor } from "../design/palette";
 import { TopicChip, type ChipState } from "../components/TopicChip";
+import { TopicDeck } from "../components/TopicDeck";
 import type { L } from "../lib/layout";
 import { plural, pad } from "../lib/format";
+import { prevGate } from "../lib/progress";
 import type { ProgressApi } from "../lib/progress";
 
 const SEL_WEIGHT = 3.4;
@@ -74,7 +76,8 @@ export function Shelf({ L, progress }: { L: L; progress: ProgressApi }) {
   const widthFor = (i: number) =>
     L.m ? "100%" : `calc((100% - ${gapPx}px) * ${i === sel ? SEL_WEIGHT : 1} / ${totalWeight})`;
 
-  const gate = books.findIndex((b) => b.slug === current.slug) - 1;
+  // Держит тему не соседний номер, а последняя тема с конспектом до неё.
+  const gate = prevGate(sel);
   const btn = !unlocked
     ? { label: `Откроется после темы ${pad(books[Math.max(0, gate)].no)}`, live: false }
     : hasNotes
@@ -91,6 +94,24 @@ export function Shelf({ L, progress }: { L: L; progress: ProgressApi }) {
       </p>
 
       <div style={{ display: "flex", flexDirection: "column", marginTop: L.shelfTop }}>
+      {L.m ? (
+        <div style={{ order: 2 }}>
+          <TopicDeck
+            cards={books.map((b, i) => ({
+              book: b,
+              palette: paletteFor(i, subject.hue, subject.hueStep),
+              state: stateOf(i),
+            }))}
+            sel={sel}
+            onSelect={setSel}
+            onOpen={(i) => {
+              if (books[i].sections.length && progress.isUnlocked(i)) {
+                navigate(`/s/${subject.id}/${books[i].slug}`);
+              }
+            }}
+          />
+        </div>
+      ) : (
       <div
         style={{
           display: "flex",
@@ -113,14 +134,14 @@ export function Shelf({ L, progress }: { L: L; progress: ProgressApi }) {
           />
         ))}
       </div>
+      )}
 
       <div
         ref={flip}
         style={{
           // На телефоне панель идёт первой: ряд из 16 корешков увёл бы её за экран.
-          order: L.m ? 1 : 3,
-          marginTop: L.m ? 0 : L.flipTop,
-          marginBottom: L.m ? 24 : 0,
+          order: 3,
+          marginTop: L.flipTop,
           display: "flex",
           alignItems: "flex-end",
           justifyContent: "space-between",
@@ -129,14 +150,16 @@ export function Shelf({ L, progress }: { L: L; progress: ProgressApi }) {
           transformOrigin: "top center",
         }}
       >
-        <div style={{ maxWidth: 780 }}>
-          <h2 style={{ fontSize: L.h2, lineHeight: 1.05, letterSpacing: "-0.03em", textWrap: "balance" }}>
-            {current.title}
-          </h2>
-          <p style={{ marginTop: 16, fontSize: L.sub, lineHeight: 1.4, color: "var(--ink-2)", textWrap: "pretty" }}>
-            {current.subtitle}
-          </p>
-        </div>
+        {!L.m && (
+          <div style={{ maxWidth: 780 }}>
+            <h2 style={{ fontSize: L.h2, lineHeight: 1.05, letterSpacing: "-0.03em", textWrap: "balance" }}>
+              {current.title}
+            </h2>
+            <p style={{ marginTop: 16, fontSize: L.sub, lineHeight: 1.4, color: "var(--ink-2)", textWrap: "pretty" }}>
+              {current.subtitle}
+            </p>
+          </div>
+        )}
         <button
           className="btn"
           onClick={open}

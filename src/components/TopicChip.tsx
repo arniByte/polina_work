@@ -26,10 +26,15 @@ export function TopicChip({ no, palette, state, selected, L, width, onSelect }: 
   const locked = state === "locked";
   const interactive = selected && !locked;
 
+  // Палец ведёт параллакс так же, как курсор: захватываем указатель,
+  // иначе первое же движение уходит в скролл страницы.
+  const grab = (e: React.PointerEvent) => {
+    if (!interactive || e.pointerType === "mouse") return;
+    (e.currentTarget as HTMLElement).setPointerCapture?.(e.pointerId);
+  };
+
   const parallax = (e: React.PointerEvent) => {
     if (!interactive) return;
-    // На тач-устройстве наклоняем, только пока палец на карточке.
-    if (e.pointerType !== "mouse" && !(e.buttons & 1) && e.pressure === 0) return;
     const el = card.current;
     if (!el) return;
     const r = el.getBoundingClientRect();
@@ -72,6 +77,7 @@ export function TopicChip({ no, palette, state, selected, L, width, onSelect }: 
       ref={card}
       className={interactive ? "chip chip--live" : "chip"}
       onClick={onSelect}
+      onPointerDown={grab}
       onPointerMove={parallax}
       onPointerLeave={rest}
       onPointerUp={rest}
@@ -89,6 +95,8 @@ export function TopicChip({ no, palette, state, selected, L, width, onSelect }: 
         fontWeight: 500,
         willChange: "transform",
         transformStyle: "preserve-3d",
+        // Вертикальный скролл страницы остаётся, горизонтальное движение — параллакс.
+        touchAction: interactive ? "pan-y" : "auto",
         flex: "0 0 auto",
         width,
         height: (selected ? L.chipHSel : L.chipH) + "px",

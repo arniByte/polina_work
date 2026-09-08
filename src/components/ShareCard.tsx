@@ -23,8 +23,13 @@ export function ShareCard({
   const holo = useRef<HTMLSpanElement>(null);
   const glare = useRef<HTMLSpanElement>(null);
 
+  // Палец: захватываем указатель, иначе движение уходит странице и наклон рвётся.
+  const grab = (e: React.PointerEvent) => {
+    if (e.pointerType === "mouse") return;
+    (e.currentTarget as HTMLElement).setPointerCapture?.(e.pointerId);
+  };
+
   const tilt = (e: React.PointerEvent) => {
-    if (e.pointerType !== "mouse" && !(e.buttons & 1) && e.pressure === 0) return;
     const el = card.current;
     if (!el) return;
     const r = el.getBoundingClientRect();
@@ -63,6 +68,7 @@ export function ShareCard({
   return (
     <div
       ref={card}
+      onPointerDown={grab}
       onPointerMove={tilt}
       onPointerLeave={rest}
       onPointerUp={rest}
