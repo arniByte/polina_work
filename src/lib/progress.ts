@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { books } from "../content/books";
-import { PASS } from "../content/quiz";
+import { passMark } from "../content/quiz";
 
 /* Прогресс студента. Пока живёт в браузере; на этапе бэкенда этот модуль
    меняет реализацию на запросы к API, а его интерфейс остаётся тем же —
@@ -9,8 +9,9 @@ import { PASS } from "../content/quiz";
 const KEY = "piks-progress";
 const NAME_KEY = "piks-student";
 
-/** slug → счёт сданной игры. Тема попадает сюда только при score >= PASS. */
-export type Passed = Record<string, number>;
+/** slug → результат сданной игры. Тема попадает сюда только при 80% верных. */
+export type Result = { score: number; total: number };
+export type Passed = Record<string, Result>;
 
 const read = <T,>(key: string, fallback: T): T => {
   try {
@@ -47,18 +48,33 @@ export const nextTopicAfter = (i: number) => {
   return undefined;
 };
 
+/** Прежние версии хранили просто счёт из пяти вопросов.
+ *  Читаем их как {score, total: 5}, иначе у студента ломается строка результата. */
+const migrate = (raw: Record<string, unknown>): Passed => {
+  const out: Passed = {};
+  Object.entries(raw).forEach(([slug, value]) => {
+    if (typeof value === "number") out[slug] = { score: value, total: 5 };
+    else if (value && typeof value === "object" && "score" in value) out[slug] = value as Result;
+  });
+  return out;
+};
+
 export function useProgress() {
-  const [passed, setPassed] = useState<Passed>(() => read<Passed>(KEY, {}));
+  const [passed, setPassed] = useState<Passed>(() => migrate(read<Record<string, unknown>>(KEY, {})));
   const [name, setNameState] = useState<string>(() => read<string>(NAME_KEY, ""));
 
   useEffect(() => write(KEY, passed), [passed]);
   useEffect(() => write(NAME_KEY, name), [name]);
 
-  /** Записывает попытку. Тема открывается только при score >= PASS,
+  /** Записывает попытку. Тема открывается только при 80% верных,
    *  а уже набранный результат не понижается пересдачей. */
-  const submit = useCallback((slug: string, score: number) => {
-    if (score < PASS) return false;
-    setPassed((prev) => ({ ...prev, [slug]: Math.max(prev[slug] ?? 0, score) }));
+  const submit = useCallback((slug: string, score: number, total: number) => {
+    if (score < passMark(total)) return false;
+    setPassed((prev) => {
+      const was = prev[slug];
+      const better = !was || score / total > was.score / was.total;
+      return better ? { ...prev, [slug]: { score, total } } : prev;
+    });
     return true;
   }, []);
 

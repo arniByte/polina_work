@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from "react";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { Navigate, useLocation, useNavigate, useParams } from "react-router-dom";
 import { bookBySlug, bookIndex } from "../content/books";
 import { subjectById, subjects } from "../content/subjects";
-import { PASS, QUIZ_LEN } from "../content/quiz";
+import { attemptSizeFor, passMark } from "../content/quiz";
 import { paletteFor } from "../design/palette";
 import { ShareCard } from "../components/ShareCard";
 import { renderCardBlob, rankFor } from "../lib/shareCard";
@@ -19,7 +19,7 @@ export function Result({ L, progress }: { L: L; progress: ProgressApi }) {
   const i = bookIndex(slug);
 
   const score = state?.score ?? 0;
-  const total = state?.total ?? QUIZ_LEN;
+  const total = state?.total ?? attemptSizeFor(slug);
   const [saveLabel, setSaveLabel] = useState("Сохранить");
   const [shareLabel, setShareLabel] = useState("Поделиться");
   const saved = useRef(false);
@@ -28,28 +28,23 @@ export function Result({ L, progress }: { L: L; progress: ProgressApi }) {
   useEffect(() => {
     if (!book || saved.current) return;
     saved.current = true;
-    progress.submit(book.slug, score);
+    progress.submit(book.slug, score, total);
   }, [book, score, progress]);
 
-  if (!book || i < 0) {
-    navigate(`/s/${subject.id}`, { replace: true });
-    return null;
-  }
+  if (!book || i < 0) return <Navigate to={`/s/${subject.id}`} replace />;
 
   // Прямой заход по ссылке без прохождения игры — отправляем в конспект.
-  if (!state) {
-    navigate(`/s/${subject.id}/${slug}`, { replace: true });
-    return null;
-  }
+  if (!state) return <Navigate to={`/s/${subject.id}/${slug}`} replace />;
 
   const palette = paletteFor(i, subject.hue, subject.hueStep);
-  const passed = score >= PASS;
-  const rank = rankFor(score, total, PASS);
+  const pass = passMark(total);
+  const passed = score >= pass;
+  const rank = rankFor(score, total, pass);
   const next = nextTopicAfter(i);
 
   const makeBlob = () =>
     renderCardBlob({
-      book, hue: palette.hue, score, total, pass: PASS,
+      book, hue: palette.hue, score, total, pass,
       name: progress.name, subjectLabel: subject.label,
     });
 
@@ -100,7 +95,7 @@ export function Result({ L, progress }: { L: L; progress: ProgressApi }) {
           <p style={{ marginTop: 18, fontSize: L.sub, lineHeight: 1.4, color: "var(--ink-2)", maxWidth: 460, textWrap: "pretty" }}>
             {passed
               ? "Следующая тема открыта."
-              : `Нужно ${PASS} верных из ${total}. Вернитесь к конспекту и попробуйте снова.`}
+              : `Нужно ${pass} верных из ${total}. Вернитесь к конспекту и попробуйте снова.`}
           </p>
 
           <div style={{ display: "flex", alignItems: "center", gap: 14, flexWrap: "wrap", marginTop: 44 }}>

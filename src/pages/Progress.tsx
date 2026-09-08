@@ -19,7 +19,8 @@ export function Progress({ L, progress }: { L: L; progress: ProgressApi }) {
 
   const labelFor = (i: number) => {
     const b = books[i];
-    if (passed[b.slug] !== undefined) return `${passed[b.slug]}/5`;
+    const r = passed[b.slug];
+    if (r) return `${r.score}/${r.total}`;
     if (!progress.isUnlocked(i)) return "закрыта";
     return b.sections.length ? "открыта" : "скоро";
   };

@@ -1,7 +1,7 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { bookBySlug, bookIndex, books } from "../content/books";
 import { subjectById, subjects } from "../content/subjects";
-import { hasQuiz } from "../content/quiz";
+import { attemptSizeFor, hasQuiz, passMark } from "../content/quiz";
 import { paletteFor } from "../design/palette";
 import { Blocks } from "../components/Blocks";
 import { nextTopicAfter } from "../lib/progress";
@@ -99,7 +99,9 @@ export function Reader({ L, progress }: { L: L; progress: ProgressApi }) {
                   Проверить тему в игре
                 </div>
                 <p style={{ marginTop: 12, fontSize: L.body, lineHeight: 1.5, color: "var(--ink-2)", maxWidth: 520 }}>
-                  Пять ситуаций. Четыре верных ответа открывают следующую тему.
+                  {attemptSizeFor(book.slug)} ситуаций из общего банка вопросов.{" "}
+                  {passMark(attemptSizeFor(book.slug))} верных ответов открывают следующую тему.
+                  Каждая попытка — новый набор.
                 </p>
 
                 <div style={{ display: "flex", alignItems: "center", gap: 14, flexWrap: "wrap", marginTop: 32 }}>

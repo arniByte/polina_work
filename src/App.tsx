@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
+import { ErrorBoundary } from "./components/ErrorBoundary";
 import { Header } from "./components/Header";
 import { Home } from "./pages/Home";
 import { Shelf } from "./pages/Shelf";
@@ -32,6 +33,7 @@ export default function App() {
     <div style={{ minHeight: "100vh", background: "var(--bg)", display: "flex", flexDirection: "column" }}>
       {!isHome && <Header L={L} />}
       <div ref={page} style={{ flex: 1, display: "flex", flexDirection: "column" }}>
+        <ErrorBoundary key={pathname}>
         <Routes>
           <Route path="/" element={<Home L={L} />} />
           <Route path="/s/:subjectId" element={<Shelf L={L} progress={progress} />} />
@@ -42,6 +44,7 @@ export default function App() {
           <Route path="/me" element={<Progress L={L} progress={progress} />} />
           <Route path="*" element={<Home L={L} />} />
         </Routes>
+        </ErrorBoundary>
       </div>
     </div>
   );

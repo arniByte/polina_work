@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { bookBySlug, bookIndex } from "../content/books";
 import { subjectById, subjects } from "../content/subjects";
-import { quizFor } from "../content/quiz";
+import { buildAttempt } from "../content/quiz";
 import { paletteFor } from "../design/palette";
 import { pad } from "../lib/format";
 import type { L } from "../lib/layout";
@@ -15,7 +15,8 @@ export function Quiz({ L }: { L: L }) {
   const subject = subjectById(subjectId) ?? subjects[0];
   const book = bookBySlug(slug);
   const i = bookIndex(slug);
-  const list = quizFor(slug);
+  // Набор фиксируется на всю попытку: иначе каждый ре-рендер тасовал бы вопросы.
+  const [list] = useState(() => buildAttempt(slug));
 
   const [qi, setQi] = useState(0);
   const [pick, setPick] = useState<number | null>(null);
@@ -23,10 +24,9 @@ export function Quiz({ L }: { L: L }) {
 
   useEffect(() => window.scrollTo({ top: 0 }), [qi]);
 
-  if (!book || list.length === 0) {
-    navigate(`/s/${subject.id}`, { replace: true });
-    return null;
-  }
+  // Редирект элементом, а не вызовом в рендере: navigate() отсюда обновляет
+  // роутер во время отрисовки и оставляет пустой экран на прежнем URL.
+  if (!book || list.length === 0) return <Navigate to={`/s/${subject.id}`} replace />;
 
   const palette = paletteFor(i, subject.hue, subject.hueStep);
   const q = list[qi];
