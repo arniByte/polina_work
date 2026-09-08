@@ -1,46 +1,56 @@
-*,
-*::before,
-*::after {
+* {
   box-sizing: border-box;
 }
 
-html {
-  -webkit-text-size-adjust: 100%;
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  overflow-x: hidden;
 }
 
 body {
-  margin: 0;
-  min-height: 100dvh;
-  background: var(--bg);
-  color: var(--fg);
-  font-family: var(--font-text);
-  font-size: 15px;
-  line-height: 1.6;
-  font-synthesis-weight: none;
+  font-family: var(--font);
+  letter-spacing: -0.01em;
   -webkit-font-smoothing: antialiased;
-  text-rendering: optimizeLegibility;
+  color: var(--ink);
+}
+
+p,
+blockquote p {
+  font-weight: 300;
+  letter-spacing: -0.005em;
+}
+
+h1,
+h2 {
+  font-weight: 500;
 }
 
 h1,
 h2,
 h3,
-h4 {
-  font-family: var(--font-display);
-  font-weight: 700;
-  letter-spacing: -0.035em;
-  line-height: 0.98;
+p,
+figure,
+blockquote {
   margin: 0;
-  text-wrap: balance;
 }
 
-p {
+ul,
+ol {
   margin: 0;
-  text-wrap: pretty;
+  padding: 0;
+  list-style: none;
 }
 
 a {
-  color: inherit;
+  color: var(--ink);
   text-decoration: none;
+}
+
+a:hover {
+  opacity: 0.6;
 }
 
 button {
@@ -52,76 +62,59 @@ button {
   cursor: pointer;
 }
 
-ul,
-ol {
-  margin: 0;
-  padding: 0;
+input {
+  font-family: inherit;
 }
 
 ::selection {
-  background: var(--acid);
-  color: var(--on-accent);
+  background: #e4e3de;
 }
 
 :focus-visible {
-  outline: 2px solid var(--acid);
+  outline: 2px solid var(--ink);
   outline-offset: 3px;
-  border-radius: 2px;
+  border-radius: 4px;
 }
 
-/* Мелкий технический шрифт — подписи, номера, метки.
-   Отсылка к строке FRANCE 3 / SENEGAL 1 · #17 · 16 JUN 2026 на постере. */
-.mono {
-  font-family: var(--font-mono);
-  font-size: 10.5px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--fg-4);
+@keyframes holoFlow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
-.mono--tight {
-  letter-spacing: 0.06em;
-  text-transform: none;
+@keyframes flipIn {
+  from { opacity: 0; transform: perspective(1200px) rotateX(-14deg) translateY(18px); }
+  to { opacity: 1; transform: none; }
 }
 
-/* Рамка вокруг метки — как боксы с датой на постере */
-.chip {
-  font-family: var(--font-mono);
-  font-size: 10px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  padding: 4px 8px 3px;
-  border: 1px solid var(--line);
-  border-radius: 3px;
-  color: var(--mint-ink);
-  white-space: nowrap;
+@keyframes pageIn {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: none; }
 }
 
-/* Зерно поверх всего. Один слой на приложение, не на каждый блок. */
-.grain {
-  position: fixed;
-  inset: 0;
-  /* без явных размеров SVG берёт intrinsic 300x150 и зерно ложится углом */
-  width: 100%;
-  height: 100%;
-  z-index: 9000;
-  pointer-events: none;
-  opacity: var(--grain-opacity);
-  mix-blend-mode: var(--grain-blend);
+@keyframes riseIn {
+  from { opacity: 0; transform: translateY(26px); }
+  to { opacity: 1; transform: none; }
 }
 
-.shell {
-  min-height: 100dvh;
-  display: flex;
-  flex-direction: column;
+@keyframes bubbleFloat {
+  from { transform: translate3d(0, -14px, 0); }
+  to { transform: translate3d(0, 14px, 0); }
 }
 
-.page {
-  flex: 1;
-  padding: calc(var(--rail) + 24px) var(--gut) 96px;
-  max-width: 1440px;
-  width: 100%;
-  margin: 0 auto;
+@keyframes driftA {
+  from { transform: translate3d(0, 0, 0) scale(1); }
+  to { transform: translate3d(9vw, 7vh, 0) scale(1.14); }
+}
+
+@keyframes driftB {
+  from { transform: translate3d(0, 0, 0) scale(1.08); }
+  to { transform: translate3d(-11vw, -6vh, 0) scale(0.94); }
+}
+
+@keyframes driftC {
+  from { transform: translate3d(0, 0, 0) scale(0.96); }
+  to { transform: translate3d(6vw, -9vh, 0) scale(1.12); }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -131,6 +124,5 @@ ol {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
   }
 }

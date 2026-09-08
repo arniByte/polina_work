@@ -1,92 +1,75 @@
 import type { Block } from "../content/types";
-import "./Blocks.css";
+import type { L } from "../lib/layout";
 
-const calloutLabel = {
-  note: "на заметку",
-  trap: "здесь спотыкаются",
-  exam: "будет на зачёте",
+const TONES = {
+  note: { bg: "var(--note-bg)", ink: "var(--note-ink)", body: "var(--note-body)" },
+  trap: { bg: "var(--trap-bg)", ink: "var(--trap-ink)", body: "var(--trap-body)" },
+  exam: { bg: "var(--exam-bg)", ink: "var(--exam-ink)", body: "var(--exam-body)" },
 } as const;
 
-export function Blocks({ blocks }: { blocks: Block[] }) {
+export function Blocks({ blocks, L, accent }: { blocks: Block[]; L: L; accent: string }) {
   return (
     <>
-      {blocks.map((b, i) => {
-        switch (b.kind) {
-          case "lead":
-            return (
-              <p className="b-lead" key={i}>
-                {b.text}
-              </p>
-            );
+      {blocks.map((b, i) => (
+        <div key={i} style={{ marginBottom: 26 }}>
+          {b.kind === "lead" && (
+            <p style={{ fontSize: L.lead, lineHeight: 1.5, color: "var(--ink)", textWrap: "pretty" }}>{b.text}</p>
+          )}
 
-          case "text":
-            return (
-              <p className="b-text" key={i}>
-                {b.text}
-              </p>
-            );
+          {b.kind === "text" && (
+            <p style={{ fontSize: L.body, lineHeight: 1.65, color: "var(--ink-body)", textWrap: "pretty" }}>{b.text}</p>
+          )}
 
-          case "define":
-            return (
-              <div className="b-define" key={i}>
-                <div className="b-define__head">
-                  <h4 className="b-define__term">{b.term}</h4>
-                  {b.article ? <span className="chip">{b.article}</span> : null}
+          {b.kind === "define" && (
+            <div style={{ background: "var(--surface)", borderRadius: 20, padding: L.cardPad }}>
+              <div style={{ fontSize: L.cardTitle, fontWeight: 500, letterSpacing: "-0.015em", marginBottom: 12 }}>
+                {b.term}
+              </div>
+              <p style={{ fontSize: L.body, lineHeight: 1.6, color: "var(--ink-card)", textWrap: "pretty" }}>{b.text}</p>
+              <div style={{ fontSize: 16, color: "var(--ink-2)", marginTop: 16 }}>{b.article}</div>
+            </div>
+          )}
+
+          {b.kind === "list" && (
+            <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+              {b.title && (
+                <div style={{ fontSize: L.cardTitle, fontWeight: 500, letterSpacing: "-0.015em", textWrap: "pretty" }}>
+                  {b.title}
                 </div>
-                <p className="b-text">{b.text}</p>
+              )}
+              {b.items.map((text, j) => (
+                <div key={j} style={{ display: "grid", gridTemplateColumns: "36px minmax(0, 1fr)", gap: 8, alignItems: "start" }}>
+                  <span style={{ fontSize: L.body, lineHeight: 1.6, color: "var(--line-num)" }}>{j + 1}</span>
+                  <span style={{ fontSize: L.body, lineHeight: 1.6, color: "var(--ink-body)", textWrap: "pretty" }}>{text}</span>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {b.kind === "callout" && (
+            <div style={{ borderRadius: 20, padding: L.cardPad, background: TONES[b.tone].bg }}>
+              <div
+                style={{
+                  fontSize: L.cardTitle, fontWeight: 500, letterSpacing: "-0.015em",
+                  marginBottom: 10, color: TONES[b.tone].ink,
+                }}
+              >
+                {b.title}
               </div>
-            );
+              <p style={{ fontSize: L.body, lineHeight: 1.6, color: TONES[b.tone].body, textWrap: "pretty" }}>{b.text}</p>
+            </div>
+          )}
 
-          case "list":
-            return (
-              <div className="b-list" key={i}>
-                {b.title ? <h4 className="b-list__title">{b.title}</h4> : null}
-                <ul>
-                  {b.items.map((it, j) => (
-                    <li key={j}>
-                      <span className="b-list__num mono">
-                        {String(j + 1).padStart(2, "0")}
-                      </span>
-                      <span>{it}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            );
-
-          case "quote":
-            return (
-              <figure className="b-quote" key={i}>
-                <blockquote>{b.text}</blockquote>
-                <figcaption className="mono">{b.source}</figcaption>
-              </figure>
-            );
-
-          case "callout":
-            return (
-              <aside className={`b-callout b-callout--${b.tone}`} key={i}>
-                <span className="b-callout__tag mono">{calloutLabel[b.tone]}</span>
-                <h4 className="b-callout__title">{b.title}</h4>
-                <p className="b-text">{b.text}</p>
-              </aside>
-            );
-
-          case "meme":
-            return (
-              <figure className="b-meme" key={i}>
-                {b.src ? (
-                  <img src={b.src} alt={b.alt ?? b.caption} loading="lazy" />
-                ) : (
-                  /* Картинки ещё нет — держим место и не ломаем вёрстку. */
-                  <div className="b-meme__hole">
-                    <span className="mono">место под мем</span>
-                  </div>
-                )}
-                <figcaption className="mono mono--tight">{b.caption}</figcaption>
-              </figure>
-            );
-        }
-      })}
+          {b.kind === "quote" && (
+            <blockquote style={{ margin: "8px 0", padding: "0 0 0 24px", borderLeft: `3px solid ${accent}` }}>
+              <p style={{ fontSize: L.quote, lineHeight: 1.45, letterSpacing: "-0.015em", color: "var(--ink)", textWrap: "pretty" }}>
+                {b.text}
+              </p>
+              <div style={{ fontSize: 17, color: "var(--ink-2)", marginTop: 14 }}>{b.source}</div>
+            </blockquote>
+          )}
+        </div>
+      ))}
     </>
   );
 }

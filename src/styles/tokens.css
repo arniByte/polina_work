@@ -1,122 +1,55 @@
-/* ─── Полина / Гражданское право ────────────────────────────────────────────
-   Палитра построена на двух рефах:
-   · Bermuda & Holly — мята #82E3C7 на почти-чёрном #021B10
-   · рисограф-постер — синий/зелёный градиент с зерном
-   Кислотный зелёный держим на коротком поводке: только акценты и мемы.
-
-   Токены семантические: --bg / --fg / --surface / --mint*. Тема переключается
-   атрибутом data-theme на <html>, дефолт — тёмная.
+/* ─── ПИКС ───────────────────────────────────────────────────────────────────
+   Один светлый режим. Подложка тёплая, текст почти чёрный, цвет приходит
+   только от тем — палитра тем считается в src/design/palette.ts.
+   Ступени контраста по WCAG AA: #5F5F57 и темнее для любого текста мельче 18px.
    ──────────────────────────────────────────────────────────────────────── */
 :root {
-  /* фон и поверхности */
-  --bg: #0b100d;
-  --bg-2: #021b10; /* страница раскрытой книги */
-  --surface: rgba(255, 255, 255, 0.025);
-  --surface-2: rgba(255, 255, 255, 0.05);
+  --bg: #f7f6f3;
+  --surface: #ffffff;
 
-  /* текст */
-  --fg: #f2f4f1;
-  --fg-2: rgba(242, 244, 241, 0.82);
-  --fg-3: rgba(242, 244, 241, 0.74);
-  --fg-4: rgba(242, 244, 241, 0.52);
-  --fg-5: rgba(242, 244, 241, 0.34);
+  --ink: #14140f;
+  --ink-body: #35352e;
+  --ink-card: #4a4a42;
+  --ink-2: #5f5f57;
+  --ink-3: #74746b;
+  --ink-mute: #8a8a80;
+  --ink-faint: #a8a89e;
 
-  /* мята: --mint красит плоскости, --mint-ink — текст.
-     На светлой теме это разные цвета, иначе акцент слепнет на бумаге. */
-  --mint: #82e3c7;
-  --mint-ink: #82e3c7;
-  --mint-deep: #4fbf9d;
-  --mint-wash: rgba(130, 227, 199, 0.12);
-  --on-accent: #021b10;
+  --line: rgba(20, 20, 15, 0.1);
+  --line-num: #c0c0b6;
+  --hover: rgba(20, 20, 15, 0.05);
+  --active: rgba(20, 20, 15, 0.06);
 
-  /* кислота — только точечно */
-  --acid: #3bf07e;
-  --acid-ink: #3bf07e;
+  /* врезки */
+  --note-bg: #efeee9;
+  --note-ink: #14140f;
+  --note-body: #4a4a42;
+  --trap-bg: #ffefe7;
+  --trap-ink: #8f3a16;
+  --trap-body: #5c3221;
+  --exam-bg: #e9eeff;
+  --exam-ink: #2a3e9e;
+  --exam-body: #2b3556;
 
-  /* рисограф-синий из постера */
-  --riso-blue: #4e7be8;
-  --riso-blue-ink: #4e7be8;
-  --riso-blue-deep: #2f4bbd;
+  /* ответы в игре */
+  --ok-bg: oklch(0.94 0.06 155);
+  --ok-ring: inset 0 0 0 1.5px oklch(0.66 0.12 155);
+  --bad-bg: oklch(0.95 0.045 32);
+  --bad-ink: #7a2e12;
+  --bad-ring: inset 0 0 0 1.5px oklch(0.70 0.13 32);
+  --opt-ring: inset 0 0 0 1px rgba(20, 20, 15, 0.1);
 
-  /* линии */
-  --line: rgba(130, 227, 199, 0.16);
-  --line-soft: rgba(242, 244, 241, 0.08);
-  --hatch: rgba(130, 227, 199, 0.05);
+  /* тени */
+  --shadow-btn: 0 14px 32px -22px rgba(20, 20, 15, 0.5);
+  --shadow-card: 0 40px 80px -44px rgba(20, 20, 15, 0.55);
+  --shadow-qr: 0 24px 48px -32px rgba(20, 20, 15, 0.32);
 
-  /* оверлей, свечение полки, тени */
-  --scrim: rgba(2, 12, 8, 0.72);
-  --glow-blue: rgba(78, 123, 232, 0.36);
-  --glow-mint: rgba(130, 227, 199, 0.28);
-  --spine-hi: rgba(255, 255, 255, 0.16);
-  --spine-lo: rgba(2, 27, 16, 0.28);
-  --shadow-spine: 0 10px 26px -14px rgba(0, 0, 0, 0.9);
-  --shadow-book: -18px 0 60px -30px rgba(0, 0, 0, 0.9),
-    0 40px 120px -50px rgba(0, 0, 0, 0.9);
-  --spine-soon-veil: 0.55;
+  --font: "Unbounded", "Helvetica Neue", Arial, sans-serif;
 
-  /* зерно */
-  --grain-opacity: 0.5;
-  --grain-blend: overlay;
-
-  /* типографика */
-  --font-display: "Inter Tight", "Helvetica Neue", Arial, sans-serif;
-  --font-text: "Inter", "Helvetica Neue", Arial, sans-serif;
-  --font-mono: "JetBrains Mono", "SF Mono", ui-monospace, monospace;
-
-  /* ритм */
-  --gut: clamp(16px, 3vw, 40px);
-  --rail: 56px;
-
-  /* движение — один язык на весь сайт */
-  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
-  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
-  --dur-fast: 180ms;
-  --dur: 340ms;
-  --dur-slow: 620ms;
-
-  color-scheme: dark;
-}
-
-/* Светлая — та же композиция на бумаге, а не инверсия ради инверсии.
-   Мята уходит вглубь, чтобы текст ею оставался читаемым. */
-:root[data-theme="light"] {
-  --bg: #f1f4ef;
-  --bg-2: #fbfcfa;
-  --surface: rgba(2, 27, 16, 0.032);
-  --surface-2: rgba(2, 27, 16, 0.062);
-
-  --fg: #0a1a12;
-  --fg-2: rgba(10, 26, 18, 0.84);
-  --fg-3: rgba(10, 26, 18, 0.72);
-  --fg-4: rgba(10, 26, 18, 0.56);
-  --fg-5: rgba(10, 26, 18, 0.38);
-
-  --mint: #79dcbe;
-  --mint-ink: #14795a;
-  --mint-deep: #2c8c6c;
-  --mint-wash: rgba(47, 158, 122, 0.11);
-  --on-accent: #021b10;
-
-  --acid-ink: #12904a;
-
-  --riso-blue-ink: #2f4bbd;
-
-  --line: rgba(20, 121, 90, 0.26);
-  --line-soft: rgba(10, 26, 18, 0.13);
-  --hatch: rgba(20, 121, 90, 0.055);
-
-  --scrim: rgba(20, 40, 30, 0.42);
-  --glow-blue: rgba(78, 123, 232, 0.26);
-  --glow-mint: rgba(47, 158, 122, 0.2);
-  --spine-hi: rgba(255, 255, 255, 0.34);
-  --spine-lo: rgba(2, 27, 16, 0.16);
-  --shadow-spine: 0 10px 24px -16px rgba(10, 40, 28, 0.5);
-  --shadow-book: -18px 0 50px -34px rgba(10, 40, 28, 0.45),
-    0 30px 90px -50px rgba(10, 40, 28, 0.4);
-  --spine-soon-veil: 0.68;
-
-  --grain-opacity: 0.32;
-  --grain-blend: multiply;
+  /* движение */
+  --ease: cubic-bezier(0.16, 0.84, 0.24, 1);
+  --ease-chip: cubic-bezier(0.2, 0.75, 0.25, 1);
+  --ease-back: cubic-bezier(0.34, 1.56, 0.64, 1);
 
   color-scheme: light;
 }

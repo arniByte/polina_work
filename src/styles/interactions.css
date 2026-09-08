@@ -1,0 +1,58 @@
+/* Ховеры живут в CSS: inline-стили React их не умеют.
+   Все подъёмы — transform, не прозрачность: дизайн держится на движении. */
+
+.nav-pill:hover {
+  background: var(--hover) !important;
+  color: var(--ink) !important;
+  opacity: 1;
+}
+
+.bubble:hover {
+  box-shadow:
+    0 60px 104px -42px oklch(0.56 0.14 268),
+    inset 0 -26px 60px -30px oklch(0.52 0.12 300),
+    inset 0 18px 44px -22px rgba(255, 255, 255, 0.95) !important;
+}
+
+/* Подъём корешка только на устройствах с курсором и только у живой темы. */
+@media (hover: hover) {
+  .chip:hover {
+    transform: translateY(-10px);
+  }
+  .chip--live:hover {
+    transform: none;
+  }
+  .chip:hover {
+    opacity: 1 !important;
+  }
+}
+
+.btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+}
+
+.btn:disabled {
+  cursor: default;
+}
+
+.btn--ghost:hover {
+  background: var(--hover) !important;
+  transform: none;
+}
+
+.opt:hover {
+  transform: translateX(4px);
+}
+
+.tile:hover {
+  box-shadow: 0 24px 48px -20px rgba(20, 20, 15, 0.4);
+  z-index: 5;
+}
+
+.bar:hover {
+  transform: translateY(-6px);
+}
+
+.row:hover {
+  background: rgba(20, 20, 15, 0.04);
+}
